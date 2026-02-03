@@ -1,0 +1,16 @@
+[Unit]
+Description=GPIO Light Control Web Service
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/manh/web_contr
+Environment=PATH=/home/manh/web_contr/venv/bin
+ExecStart=/home/manh/web_contr/venv/bin/python app.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
