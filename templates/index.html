@@ -370,6 +370,228 @@
         .refresh-btn:hover {
             box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
         }
+
+        /* Timer Styles */
+        .timer-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .timer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .timer-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .add-timer-btn {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .add-timer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 152, 0, 0.4);
+        }
+
+        .timer-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .timer-item {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #4CAF50;
+            transition: all 0.3s ease;
+        }
+
+        .timer-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .timer-item.inactive {
+            opacity: 0.6;
+            border-left-color: #999;
+        }
+
+        .timer-info {
+            flex: 1;
+        }
+
+        .timer-light-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .timer-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .timer-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .timer-action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        .timer-toggle-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .timer-toggle-btn.inactive {
+            background: #999;
+        }
+
+        .timer-delete-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .timer-action-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .no-timers {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-style: italic;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .modal-btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -401,14 +623,75 @@
                 <!-- Status info will be populated here -->
             </div>
         </div>
+
+        <div class="timer-section">
+            <div class="timer-header">
+                <div class="timer-title">⏰ Scheduled Timers</div>
+                <button class="add-timer-btn" onclick="openTimerModal()">
+                    ➕ Add Timer
+                </button>
+            </div>
+            <div class="timer-list" id="timerList">
+                <!-- Timers will be populated here -->
+            </div>
+        </div>
     </div>
 
     <div id="message" class="message"></div>
+
+    <!-- Timer Modal -->
+    <div id="timerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Create New Timer</div>
+            <form id="timerForm">
+                <div class="form-group">
+                    <label class="form-label" for="timerLight">Light</label>
+                    <select class="form-select" id="timerLight" required>
+                        <option value="">Select a light</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="timerAction">Action</label>
+                    <select class="form-select" id="timerAction" required onchange="toggleBrightnessInput()">
+                        <option value="on">Turn ON</option>
+                        <option value="off">Turn OFF</option>
+                        <option value="brightness">Set Brightness</option>
+                    </select>
+                </div>
+                <div class="form-group" id="brightnessGroup" style="display: none;">
+                    <label class="form-label" for="timerBrightness">Brightness (%)</label>
+                    <input type="number" class="form-input" id="timerBrightness" min="0" max="100" value="50">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="timerTime">Time</label>
+                    <input type="time" class="form-input" id="timerTime" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="timerRepeat">Repeat</label>
+                    <select class="form-select" id="timerRepeat" required>
+                        <option value="once">Once</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekdays">Weekdays</option>
+                        <option value="weekends">Weekends</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn modal-btn-secondary" onclick="closeTimerModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="modal-btn modal-btn-primary">
+                        Create Timer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
         // Global variables
         let lights = [];
         let systemStatus = {};
+        let timers = [];
 
         // API endpoints
         const API_BASE = '/api';
@@ -420,7 +703,10 @@
             toggle: (id) => `${API_BASE}/lights/${id}/toggle`,
             set: (id) => `${API_BASE}/lights/${id}/set`,
             brightness: (id) => `${API_BASE}/lights/${id}/brightness`,
-            fade: (id) => `${API_BASE}/lights/${id}/fade`
+            fade: (id) => `${API_BASE}/lights/${id}/fade`,
+            timers: `${API_BASE}/timers`,
+            timerDelete: (id) => `${API_BASE}/timers/${id}`,
+            timerToggle: (id) => `${API_BASE}/timers/${id}/toggle`
         };
 
         // Utility functions
@@ -485,6 +771,16 @@
                 renderSystemStatus();
             } catch (error) {
                 console.error('Failed to load system status:', error);
+            }
+        }
+
+        async function loadTimers() {
+            try {
+                const response = await apiCall(ENDPOINTS.timers);
+                timers = response.timers || [];
+                renderTimers();
+            } catch (error) {
+                console.error('Failed to load timers:', error);
             }
         }
 
@@ -584,7 +880,7 @@
             setLoading(container, true);
             
             try {
-                await Promise.all([loadLights(), loadSystemStatus()]);
+                await Promise.all([loadLights(), loadSystemStatus(), loadTimers()]);
                 showMessage('Status refreshed successfully');
             } catch (error) {
                 console.error('Failed to refresh status:', error);
@@ -725,6 +1021,7 @@
             
             const onLights = lights.filter(l => l.state).length;
             const totalLights = lights.length;
+            const activeTimers = systemStatus.active_timers || 0;
             
             statusEl.innerHTML = `
                 <div class="status-item">
@@ -740,17 +1037,183 @@
                     <span class="status-value">${onLights} / ${totalLights}</span>
                 </div>
                 <div class="status-item">
+                    <span class="status-label">Active Timers:</span>
+                    <span class="status-value">${activeTimers}</span>
+                </div>
+                <div class="status-item">
                     <span class="status-label">Last Update:</span>
                     <span class="status-value">${new Date().toLocaleTimeString()}</span>
                 </div>
             `;
         }
 
+        function renderTimers() {
+            const timerList = document.getElementById('timerList');
+            
+            if (!timers || timers.length === 0) {
+                timerList.innerHTML = '<div class="no-timers">No timers scheduled</div>';
+                return;
+            }
+            
+            timerList.innerHTML = timers.map(timer => {
+                const timerTime = new Date(timer.time);
+                const timeStr = timerTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                const dateStr = timerTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                
+                let actionText = timer.action.toUpperCase();
+                if (timer.action === 'brightness') {
+                    actionText = `${timer.brightness}%`;
+                }
+                
+                let repeatText = timer.repeat;
+                if (repeatText === 'once') {
+                    repeatText = `${dateStr} ${timeStr}`;
+                } else {
+                    repeatText = `${repeatText.charAt(0).toUpperCase() + repeatText.slice(1)} at ${timeStr}`;
+                }
+                
+                return `
+                <div class="timer-item ${timer.active ? '' : 'inactive'}">
+                    <div class="timer-info">
+                        <div class="timer-light-name">${timer.light_name}</div>
+                        <div class="timer-details">
+                            ${actionText} • ${repeatText}
+                            ${timer.active ? '' : ' • <strong>Inactive</strong>'}
+                        </div>
+                    </div>
+                    <div class="timer-actions">
+                        <button class="timer-action-btn timer-toggle-btn ${timer.active ? '' : 'inactive'}" 
+                                onclick="toggleTimer('${timer.id}')">
+                            ${timer.active ? '⏸' : '▶️'}
+                        </button>
+                        <button class="timer-action-btn timer-delete-btn" 
+                                onclick="deleteTimer('${timer.id}')">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Timer Modal Functions
+        function openTimerModal() {
+            const modal = document.getElementById('timerModal');
+            const lightSelect = document.getElementById('timerLight');
+            
+            // Populate light options
+            lightSelect.innerHTML = '<option value="">Select a light</option>' + 
+                lights.map(light => `<option value="${light.id}">${light.name}</option>`).join('');
+            
+            // Set default time to current time + 1 hour
+            const now = new Date();
+            now.setHours(now.getHours() + 1);
+            const timeStr = now.toTimeString().slice(0, 5);
+            document.getElementById('timerTime').value = timeStr;
+            
+            modal.classList.add('show');
+        }
+
+        function closeTimerModal() {
+            const modal = document.getElementById('timerModal');
+            modal.classList.remove('show');
+            document.getElementById('timerForm').reset();
+        }
+
+        function toggleBrightnessInput() {
+            const action = document.getElementById('timerAction').value;
+            const brightnessGroup = document.getElementById('brightnessGroup');
+            brightnessGroup.style.display = action === 'brightness' ? 'block' : 'none';
+        }
+
+        async function createTimer(event) {
+            event.preventDefault();
+            
+            const lightId = parseInt(document.getElementById('timerLight').value);
+            const action = document.getElementById('timerAction').value;
+            const time = document.getElementById('timerTime').value;
+            const repeat = document.getElementById('timerRepeat').value;
+            const brightness = parseInt(document.getElementById('timerBrightness').value);
+            
+            if (!lightId) {
+                showMessage('Please select a light', 'error');
+                return;
+            }
+            
+            try {
+                const payload = {
+                    light_id: lightId,
+                    action: action,
+                    time: time,
+                    repeat: repeat
+                };
+                
+                if (action === 'brightness') {
+                    payload.brightness = brightness;
+                }
+                
+                const response = await apiCall(ENDPOINTS.timers, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                
+                showMessage(response.message);
+                closeTimerModal();
+                await loadTimers();
+                
+            } catch (error) {
+                console.error('Failed to create timer:', error);
+            }
+        }
+
+        async function deleteTimer(timerId) {
+            if (!confirm('Are you sure you want to delete this timer?')) {
+                return;
+            }
+            
+            try {
+                const response = await apiCall(ENDPOINTS.timerDelete(timerId), {
+                    method: 'DELETE'
+                });
+                
+                showMessage(response.message);
+                await loadTimers();
+                
+            } catch (error) {
+                console.error('Failed to delete timer:', error);
+            }
+        }
+
+        async function toggleTimer(timerId) {
+            try {
+                const response = await apiCall(ENDPOINTS.timerToggle(timerId), {
+                    method: 'POST'
+                });
+                
+                showMessage(response.message);
+                await loadTimers();
+                
+            } catch (error) {
+                console.error('Failed to toggle timer:', error);
+            }
+        }
+
         // Initialize the application
         async function init() {
             try {
-                await Promise.all([loadLights(), loadSystemStatus()]);
+                await Promise.all([loadLights(), loadSystemStatus(), loadTimers()]);
                 console.log('GPIO Light Control initialized');
+                
+                // Setup timer form submission
+                document.getElementById('timerForm').addEventListener('submit', createTimer);
+                
+                // Close modal on outside click
+                document.getElementById('timerModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'timerModal') {
+                        closeTimerModal();
+                    }
+                });
+                
             } catch (error) {
                 console.error('Failed to initialize:', error);
                 showMessage('Failed to initialize application', 'error');
@@ -760,7 +1223,7 @@
         // Auto-refresh every 30 seconds
         setInterval(async () => {
             try {
-                await loadLights();
+                await Promise.all([loadLights(), loadTimers()]);
             } catch (error) {
                 console.error('Auto-refresh failed:', error);
             }

@@ -7,7 +7,9 @@ A Flask-based web service to control GPIO pins for light on/off functionality on
 - **Web Interface**: Modern, responsive web interface for controlling lights
 - **REST API**: Complete API for programmatic control
 - **GPIO Control**: Support for Raspberry Pi GPIO pins with automatic fallback to simulation mode
+- **PWM Support**: Smooth brightness control and fading effects for PWM-enabled lights
 - **Multiple Lights**: Configure multiple lights with custom names and pin assignments
+- **Timer/Scheduler**: Schedule lights to turn on/off or set brightness at specific times with repeat options (daily, weekdays, weekends)
 - **Real-time Status**: Live status updates and control feedback
 - **Safety Features**: Proper GPIO cleanup and error handling
 
@@ -171,7 +173,69 @@ Get system status
     "status": "running",
     "timestamp": "2026-01-25T10:30:00",
     "gpio_mode": "hardware",
-    "total_lights": 4
+    "total_lights": 4,
+    "active_timers": 2
+}
+```
+
+### Timer Endpoints
+
+#### GET /api/timers
+Get all scheduled timers
+```json
+{
+    "success": true,
+    "timers": [
+        {
+            "id": "uuid-string",
+            "light_id": 1,
+            "light_name": "Living Room",
+            "action": "on",
+            "time": "2026-02-04T18:30:00",
+            "repeat": "daily",
+            "active": true,
+            "created_at": "2026-02-04T10:00:00"
+        }
+    ]
+}
+```
+
+#### POST /api/timers
+Create a new timer
+```json
+// Request body
+{
+    "light_id": 1,
+    "action": "on",           // "on", "off", or "brightness"
+    "time": "18:30",          // HH:MM format
+    "brightness": 50,         // Optional, only for "brightness" action
+    "repeat": "daily"         // "once", "daily", "weekdays", "weekends"
+}
+
+// Response
+{
+    "success": true,
+    "timer": {...},
+    "message": "Timer set for Living Room to on at 18:30"
+}
+```
+
+#### DELETE /api/timers/{timer_id}
+Delete a timer
+```json
+{
+    "success": true,
+    "message": "Timer deleted successfully"
+}
+```
+
+#### POST /api/timers/{timer_id}/toggle
+Toggle timer active state
+```json
+{
+    "success": true,
+    "timer": {...},
+    "message": "Timer activated"
 }
 ```
 
@@ -180,6 +244,12 @@ Get system status
 ### Test GPIO Controller
 ```bash
 python gpio_controller.py
+```
+
+### Test Timer API
+```bash
+# Make sure the Flask app is running first
+python test_timers.py
 ```
 
 ### Test API with curl
@@ -197,6 +267,14 @@ curl -X POST http://localhost:5000/api/lights/all/on
 curl -X POST -H "Content-Type: application/json" \
      -d '{"state": false}' \
      http://localhost:5000/api/lights/2/set
+
+# Create a timer
+curl -X POST -H "Content-Type: application/json" \
+     -d '{"light_id": 1, "action": "on", "time": "18:30", "repeat": "daily"}' \
+     http://localhost:5000/api/timers
+
+# Get all timers
+curl http://localhost:5000/api/timers
 ```
 
 ## File Structure
@@ -206,7 +284,10 @@ web_contr/
 ├── app.py                 # Main Flask application
 ├── gpio_controller.py     # GPIO control module
 ├── requirements.txt       # Python dependencies
+├── test_timers.py        # Timer API test script
 ├── README.md             # This file
+├── TIMER_FEATURE.md      # Timer feature documentation
+├── PWM_README.md         # PWM feature documentation
 └── templates/
     └── index.html        # Web interface
 ```
