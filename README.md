@@ -25,6 +25,7 @@ Default GPIO pin assignments (BCM numbering):
 - **Pin 20**: Bedroom Light
 - **Pin 21**: Bathroom Light
 
+
 ## Installation
 
 ### 1. Clone or Download Files
